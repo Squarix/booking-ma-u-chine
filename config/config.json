@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "cp",
+    "password": "123456",
+    "database": "cp_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "cp",
+    "password": "123456",
+    "database": "cp_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "cp",
+    "password": "123456",
+    "database": "cp_production",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
