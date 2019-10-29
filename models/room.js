@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     size: DataTypes.INTEGER,
     address: DataTypes.STRING,
     city_id: {
-      type: Sequelize.BIGINT,
+      type: DataTypes.BIGINT,
       references: {
         model: 'City',
         key: 'id'
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: DataTypes.TEXT,
     user_id: {
-      type: Sequelize.BIGINT,
+      type: DataTypes.BIGINT,
       references: {
         model: 'User',
         key: 'id'
