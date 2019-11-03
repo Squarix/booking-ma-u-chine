@@ -1,10 +1,13 @@
-CREATE OR REPLACE FUNCTION getUser(var_id bigint)
-    RETURNS "Rooms" AS
+create or replace function getuser(var_id bigint) returns "Users"
+    language plpgsql
+as
 $$
 DECLARE
-    result "Rooms";
+    result "Users";
 BEGIN
     SELECT * from "Users" where id = var_id into result;
     return result;
 END;
-$$ LANGUAGE 'plpgsql';
+$$;
+
+alter function getuser(bigint) owner to cp;

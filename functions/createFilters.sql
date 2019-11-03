@@ -1,12 +1,18 @@
-CREATE OR REPLACE PROCEDURE createFilters(filters varchar(255)[], categories_id bigint[])
-AS
+create or replace function createfilters(var_filter varchar(255), var_category_id bigint)
+    returns bigint
+as
 $$
+DECLARE
+    result bigint;
 BEGIN
-    FOR i IN 1 .. array_upper(filters, 1)
-    LOOP
-        IF not exists(SELECT 1 FROM "Filters" f where f."name" = filters[i] and f."category_id" = categories_id[i]) THEN
-            Insert into "Filters"(name, category_id) values (filters[i], categories_id[i]);
-        END IF;
-    end loop;
+    IF not exists(SELECT 1 FROM "Filters" f where f."name" = var_filter and f."category_id" = var_category_id) THEN
+        Insert into "Filters"("name", "category_id") values (var_filter, var_category_id) RETURNING "id" into result;
+    ELSE
+        Select id from "Filters" f where f."name" = var_filter and f."category_id" = var_category_id into result;
+    END IF;
+    return result;
 END
-$$ LANGUAGE 'plpgsql';
+$$ language plpgsql;
+
+alter function createfilters(character varying, bigint) owner to cp;
+

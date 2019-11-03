@@ -1,5 +1,6 @@
-CREATE OR REPLACE PROCEDURE assignFilters(var_room_id bigint, params bigint[])
-AS
+create or replace procedure assignfilters(var_room_id bigint, params bigint[])
+    language plpgsql
+as
 $$
 BEGIN
     IF(exists(SELECT 1 FROM "Rooms" where id = var_room_id)) THEN
@@ -9,6 +10,10 @@ BEGIN
                 Insert into "RoomsFilters"(room_id, filter_id) values (var_room_id, params[i]);
             END IF;
         end loop;
+    ELSE
+        raise exception 'Room does not exists';
     END IF;
-END;
-$$ LANGUAGE 'plpgsql';
+END
+$$;
+
+alter procedure assignfilters(bigint, bigint[]) owner to cp;
