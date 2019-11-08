@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'pending'
+    },
     todayPrice: DataTypes.INTEGER
   }, {});
   Room.associate = function(models) {
