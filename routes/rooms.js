@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+
+const elastic = require('../lib/elasticsearch');
+
 const User = require('../lib/users');
 const Room = require('../lib/rooms');
 
@@ -33,8 +36,6 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', userService.authenticate, async (user, req, res, next) => {
-	console.log(user);
-	console.log(req.body);
 	if (user) {
 		const result = await roomService.createRoom(req.body, user);
 		res.status(result.status).json(result)

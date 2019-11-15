@@ -8,7 +8,7 @@ const User = require('../lib/users');
 const userService = new User();
 
 router.post('/', userService.authenticate, async (user, req, res, next) => {
-	if (user) {
+	if (user.id) {
 		try {
 			const result = await bookingService.create(user, req.body);
 			res.status(result.status).json(result);
@@ -21,7 +21,7 @@ router.post('/', userService.authenticate, async (user, req, res, next) => {
 });
 
 router.get('/', userService.authenticate, async (user, req, res, next) => {
-	if (user) {
+	if (user.id) {
 		const results = await bookingService.userBookings(user);
 		res.status(200).json(results);
 	} else {
