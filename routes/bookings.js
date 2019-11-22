@@ -13,7 +13,7 @@ router.post('/', userService.authenticate, async (user, req, res, next) => {
 			const result = await bookingService.create(user, req.body);
 			res.status(result.status).json(result);
 		} catch (e) {
-			res.status(400).json({message: 'This apartments has been already booked :( '})
+			res.status(400).json({ message: 'This apartments has been already booked :( '})
 		}
 	} else {
 		res.status(401).json({message: 'Not authorized'})
@@ -28,6 +28,8 @@ router.get('/', userService.authenticate, async (user, req, res, next) => {
 		res.status(401).json({message: 'Not authorized'})
 	}
 });
+
+
 
 
 module.exports = router;

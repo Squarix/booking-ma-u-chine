@@ -13,8 +13,9 @@ const authRouter   = require('./routes/auth');
 const roomsRouter  = require('./routes/rooms');
 const rentsRouter  = require('./routes/rents');
 const searchRouter = require('./routes/search');
+const adminRouter  = require('./routes/admin');
 
-const bookingsRouter   = require('./routes/bookings');
+const bookingsRouter  = require('./routes/bookings');
 const countriesRouter = require('./routes/countries');
 
 const app = express();
@@ -22,10 +23,10 @@ const app = express();
 app.use(logger('dev'));
 
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({ limit: '50mb', extended: false }));
 app.use(cookieParser());
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(params.expressMiddleware());
 
@@ -36,6 +37,7 @@ app.use('/rooms', roomsRouter);
 app.use('/countries', countriesRouter);
 app.use('/bookings', bookingsRouter);
 app.use('/rents', rentsRouter);
+app.use('/admin', adminRouter);
 app.use('/search', searchRouter);
 
 module.exports = app;

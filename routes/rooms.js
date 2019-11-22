@@ -30,6 +30,11 @@ router.get('/:id', userService.authenticate, async (user, req, res, next) => {
 	}
 });
 
+router.get('/:id/bookings', async (req, res) => {
+	const bookings = await roomService.roomBookings(req.params.id);
+	res.status(200).json(bookings);
+});
+
 router.get('/', async (req, res) => {
 	const rooms = await roomService.publicRooms(req.query);
 	res.status(200).json(rooms);
