@@ -22,7 +22,7 @@ router.post('/', userService.authenticate, async (user, req, res, next) => {
 
 router.get('/', userService.authenticate, async (user, req, res, next) => {
 	if (user.id) {
-		const results = await bookingService.userBookings(user);
+		const results = await bookingService.userBookings(user, req.query);
 		res.status(200).json(results);
 	} else {
 		res.status(401).json({message: 'Not authorized'})

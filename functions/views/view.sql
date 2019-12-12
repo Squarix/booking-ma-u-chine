@@ -22,3 +22,7 @@ create view get_user_bookings_view as
       inner join "Rooms" R on B.room_id = R.id
       inner join "Cities" C on R.city_id = C.id
       ORDER BY B."arriveDate" DESC LIMIT 20
+
+create view get_admin_rooms as
+    SELECT id, "guestsAmount", size, address, city_id as cityId, description, user_id as userId, "todayPrice" from "Rooms"
+        where status='pending'

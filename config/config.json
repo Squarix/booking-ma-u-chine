@@ -24,5 +24,41 @@
     "database": "cp_production",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "development-user" : {
+    "username": "role_user",
+    "password": "123456",
+    "database": "cp_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "idle": 10000
+    }
+  },
+  "development-guest" : {
+    "username": "role_guest",
+    "password": "123456",
+    "database": "cp_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "idle": 10000
+    }
+  },
+  "development-admin" : {
+    "username": "role_admin",
+    "password": "123456",
+    "database": "cp_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "pool": {
+      "max": 5,
+      "min": 0,
+      "idle": 10000
+    }
   }
 }
