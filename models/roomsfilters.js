@@ -1,6 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const RoomsFilters = sequelize.define('RoomsFilters', {
+    id: {
+      type: DataTypes.BIGINT,
+      primaryKey: true,
+    },
     room_id: {
       type: DataTypes.BIGINT,
       references: {

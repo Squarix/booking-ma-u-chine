@@ -1,26 +1,28 @@
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const params = require('strong-params');
-const logger = require('morgan');
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import logger from "morgan";
+import cors from "cors";
+import { sequelize } from "./models";
+import passport from './lib/authentication';
 
-const cors = require('cors');
 
-const indexRouter  = require('./routes/index');
-const usersRouter  = require('./routes/users');
-const authRouter   = require('./routes/auth');
-const roomsRouter  = require('./routes/rooms');
-const rentsRouter  = require('./routes/rents');
-const searchRouter = require('./routes/search');
-const adminRouter  = require('./routes/admin');
+import indexRouter from "./routes";
+import usersRouter from "./routes/users";
+import authRouter from "./routes/auth";
+import roomsRouter from "./routes/rooms";
+import rentsRouter from "./routes/rents";
+import searchRouter from "./routes/search";
+import adminRouter from "./routes/admin";
+import bookingsRouter from "./routes/bookings";
+import countriesRouter from "./routes/countries";
 
-const bookingsRouter  = require('./routes/bookings');
-const countriesRouter = require('./routes/countries');
+sequelize.sync();
 
 const app = express();
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 
 app.use(cors());
 app.use(express.json({limit: '50mb'}));
@@ -28,7 +30,8 @@ app.use(express.urlencoded({ limit: '50mb', extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(params.expressMiddleware());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -40,4 +43,4 @@ app.use('/rents', rentsRouter);
 app.use('/admin', adminRouter);
 app.use('/search', searchRouter);
 
-module.exports = app;
+app.listen(3000);

@@ -1,15 +1,15 @@
-const express = require('express');
+import Rent from "../lib/rents";
+import elasticSearch from "../lib/elasticsearch";
+import User from "../lib/users";
+import express from "express";
+import passport from 'passport';
+
 const router = express.Router();
-
-const User = require('../lib/users');
 const userService = new User();
-
-const elasticSearch = require('../lib/elasticsearch');
-
-const Rent = require('../lib/rents');
 const rentService = new Rent();
 
-router.get('/', userService.authenticate, async (user, req, res, next) => {
+router.get('/', passport.authenticate('jwt'), async (req, res, next) => {
+	const { user } = req;
 	if (user.id) {
 		const rents = await rentService.getUserRents(user.id)
 		res.status(200).json(rents)
@@ -18,7 +18,8 @@ router.get('/', userService.authenticate, async (user, req, res, next) => {
 	}
 });
 
-router.put('/:id', userService.authenticate, async (user, req, res, next) => {
+router.put('/:id', passport.authenticate('jwt'), async (req, res, next) => {
+	const { user } = req;
 	if (user.id) {
 		try {
 			const result = await rentService.setStatus(user.id, req.params.id, req.body.newStatus);

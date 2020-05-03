@@ -1,6 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Booking = sequelize.define('Booking', {
+    id: {
+      type: DataTypes.BIGINT,
+      primaryKey: true,
+    },
     room_id: {
       type: DataTypes.BIGINT,
       references: {

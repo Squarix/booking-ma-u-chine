@@ -1,6 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Country = sequelize.define('Country', {
+    id: {
+      type: DataTypes.BIGINT,
+      primaryKey: true
+    },
     name: DataTypes.STRING,
     code: DataTypes.STRING,
   }, {});

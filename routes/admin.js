@@ -1,13 +1,14 @@
-const express = require('express');
+import passport from "passport";
+
+import Admin from "../lib/admin";
+import User from "../lib/users";
+import express from "express";
+
 const router = express.Router();
-
-const User = require('../lib/users');
 const userService = new User();
-
-const Admin = require('../lib/admin');
 const adminService = new Admin();
 
-router.use(userService.authenticate);
+router.use(passport.authenticate('jwt'));
 router.use(userService.isUserModerator);
 
 router.get('/', async (req, res, next) => {

@@ -1,11 +1,10 @@
-const express = require('express');
+import express from "express";
+import elastic from "../lib/elasticsearch";
+import User from "../lib/users";
+import Room from "../lib/rooms";
+import passport from 'passport';
+
 const router = express.Router();
-
-const elastic = require('../lib/elasticsearch');
-
-const User = require('../lib/users');
-const Room = require('../lib/rooms');
-
 const roomService = new Room();
 const userService = new User();
 
@@ -20,7 +19,8 @@ router.get('/', async (req, res) => {
 	res.status(200).json(rooms);
 });
 
-router.get('/:id', userService.authenticate, async (user, req, res, next) => {
+router.get('/:id', passport.authenticate('jwt'), async (req, res, next) => {
+	const { user } = req;
 	const room = await roomService.findRoom(Number.parseInt(req.params.id), user.id);
 
 	if (room) {
@@ -28,6 +28,19 @@ router.get('/:id', userService.authenticate, async (user, req, res, next) => {
 	} else {
 		res.status(404).json({message: 'Not found'});
 	}
+});
+
+router.put('/:id', passport.authenticate('jwt'), async (req, res, next) => {
+	let response;
+	const { user } = req;
+	console.log(user)
+	if (user.id) {
+		response = await roomService.updateRoom(req.params.id, req.body, user)
+	} else {
+		response = {status: 401, message: 'Not authorized'}
+	}
+
+	res.status(response.status).json(response);
 });
 
 router.get('/:id/bookings', async (req, res) => {
@@ -40,7 +53,8 @@ router.get('/', async (req, res) => {
 	res.status(200).json(rooms);
 });
 
-router.post('/', userService.authenticate, async (user, req, res, next) => {
+router.post('/', passport.authenticate('jwt'), async (req, res, next) => {
+	const { user } = req;
 	if (user) {
 		const result = await roomService.createRoom(req.body, user);
 		res.status(result.status).json(result)
@@ -48,4 +62,5 @@ router.post('/', userService.authenticate, async (user, req, res, next) => {
 		res.status(401).json({message: 'Not authorized'})
 	}
 });
+
 module.exports = router;

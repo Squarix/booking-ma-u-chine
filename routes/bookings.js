@@ -1,13 +1,15 @@
-const express = require('express');
+import passport from "passport";
+
+import User from "../lib/users";
+import Booking from "../lib/bookings";
+import express from "express";
+
 const router = express.Router();
-
-const Booking = require('../lib/bookings');
 const bookingService = new Booking();
-
-const User = require('../lib/users');
 const userService = new User();
 
-router.post('/', userService.authenticate, async (user, req, res, next) => {
+router.post('/', passport.authenticate('jwt'), async (req, res) => {
+	const { user } = req;
 	if (user.id) {
 		try {
 			const result = await bookingService.create(user, req.body);
@@ -20,7 +22,8 @@ router.post('/', userService.authenticate, async (user, req, res, next) => {
 	}
 });
 
-router.get('/', userService.authenticate, async (user, req, res, next) => {
+router.get('/', passport.authenticate('jwt'), async (req, res) => {
+	const { user } = req;
 	if (user.id) {
 		const results = await bookingService.userBookings(user, req.query);
 		res.status(200).json(results);

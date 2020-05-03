@@ -1,6 +1,9 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const City = sequelize.define('City', {
+    id: {
+      type: DataTypes.BIGINT,
+      primaryKey: true,
+    },
     name: DataTypes.STRING,
     country_id: {
       type: DataTypes.INTEGER,
