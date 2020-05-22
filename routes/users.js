@@ -24,22 +24,18 @@ router.get('/:id', async (req, res) => {
   if (user.email) {
     res.status(200).json(user);
   } else {
-    res.status(404).json({ message: 'User not found' })
+    res.status(404).json({message: 'User not found'})
   }
 });
 
 
 router.put('/:id', passport.authenticate('jwt'), async (req, res, next) => {
   const { user } = req;
-  if (user.id && user.id === Number.parseInt(req.params.id)) {
-    try {
-      await userService.updateProfile(user, req.body.params)
-      res.status(200).json({ message: 'Profile updated' })
-    } catch (e) {
-      res.status(400).json({ message: 'Oops... something went wrong' })
-    }
-  } else {
-    res.status(403).json({ message: 'Not authorized' })
+  try {
+    await userService.updateProfile(user, req.body.params)
+    res.status(200).json({message: 'Profile updated'})
+  } catch (e) {
+    res.status(400).json({message: 'Oops... something went wrong'})
   }
 });
 

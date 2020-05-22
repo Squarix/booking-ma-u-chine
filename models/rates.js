@@ -1,21 +1,22 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Rates = sequelize.define('Rates', {
+  const Rates = sequelize.define('rates', {
     id: {
       type: DataTypes.BIGINT,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
-    room_id: {
+    roomId: {
       type: DataTypes.BIGINT,
       references: {
-        model: 'Rooms',
+        model: 'rooms',
         key: 'id'
       }
     },
-    user_id: {
+    userId: {
       type: DataTypes.BIGINT,
       references: {
-        model: 'Users',
+        model: 'users',
         key: 'id'
       }
     },
@@ -23,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     comment: DataTypes.TEXT
   }, {});
   Rates.associate = function(models) {
-    // associations can be defined here
+    Rates.belongsTo(models.user);
+    Rates.belongsTo(models.room);
   };
   return Rates;
 };

@@ -1,14 +1,15 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Category = sequelize.define('Category', {
+  const category = sequelize.define('category', {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
+      autoIncrement: true
     },
     name: DataTypes.STRING
   }, {});
-  Category.associate = function(models) {
+  category.associate = function(models) {
     // associations can be defined here
   };
-  return Category;
+  return category;
 };

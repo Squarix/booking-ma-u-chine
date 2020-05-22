@@ -1,21 +1,22 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Booking = sequelize.define('Booking', {
+  const Booking = sequelize.define('booking', {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
+      autoIncrement: true
     },
-    room_id: {
+    roomId: {
       type: DataTypes.BIGINT,
       references: {
-        model: 'Rooms',
+        model: 'rooms',
         key: 'id'
       }
     },
-    user_id: {
+    userId: {
       type: DataTypes.BIGINT,
       references: {
-        model: 'Users',
+        model: 'users',
         key: 'id'
       }
     },
@@ -25,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER
   }, {});
   Booking.associate = function(models) {
-    // associations can be defined here
+    Booking.belongsTo(models.user);
+    Booking.belongsTo(models.room);
   };
   return Booking;
 };

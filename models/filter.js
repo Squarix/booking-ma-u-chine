@@ -1,21 +1,23 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Filter = sequelize.define('Filter', {
+  const Filter = sequelize.define('filter', {
     id: {
       type: DataTypes.BIGINT,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
     },
-    name: DataTypes.STRING,
-    category_id: {
+    filter: DataTypes.STRING,
+    categoryId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Category',
+        model: 'categories',
         key: 'id'
       }
     }
   }, {});
   Filter.associate = function(models) {
-    // associations can be defined here
+    Filter.belongsTo(models.category);
+    Filter.belongsToMany(models.room, { through: 'roomsFilters', as: 'rooms' });
   };
   return Filter;
 };

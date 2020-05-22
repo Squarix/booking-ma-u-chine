@@ -1,25 +1,26 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Room = sequelize.define('Room', {
+  const Room = sequelize.define('room', {
     id: {
       type: DataTypes.BIGINT,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true,
     },
     guestsAmount: DataTypes.INTEGER,
     size: DataTypes.INTEGER,
     address: DataTypes.STRING,
-    city_id: {
+    cityId: {
       type: DataTypes.BIGINT,
       references: {
-        model: 'City',
+        model: 'cities',
         key: 'id'
       },
     },
     description: DataTypes.TEXT,
-    user_id: {
+    userId: {
       type: DataTypes.BIGINT,
       references: {
-        model: 'User',
+        model: 'users',
         key: 'id'
       }
     },
@@ -30,7 +31,10 @@ module.exports = (sequelize, DataTypes) => {
     todayPrice: DataTypes.INTEGER
   }, {});
   Room.associate = function (models) {
-    // associations can be defined here
+    Room.belongsTo(models.user);
+    Room.belongsTo(models.city);
+    Room.hasMany(models.image,  { as: 'images' });
+    Room.belongsToMany(models.filter, { through: 'roomsFilters', as: 'filters'});
   };
 
   return Room;

@@ -1,20 +1,21 @@
 module.exports = (sequelize, DataTypes) => {
-  const City = sequelize.define('City', {
+  const City = sequelize.define('city', {
     id: {
       type: DataTypes.BIGINT,
       primaryKey: true,
+      autoIncrement: true
     },
     name: DataTypes.STRING,
-    country_id: {
+    countryId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Country',
+        model: 'countries',
         key: 'id'
       }
     }
   }, {});
   City.associate = function(models) {
-    // associations can be defined here
+    City.belongsTo(models.country);
   };
   return City;
 };
