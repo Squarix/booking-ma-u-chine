@@ -20,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     },
-    status: DataTypes.STRING,
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: 'approving'
+    },
     arriveDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
     price: DataTypes.INTEGER
