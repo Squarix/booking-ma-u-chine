@@ -14,14 +14,18 @@ router.get('/categories', async (req, res, next) => {
 	res.status(200).json(categories);
 });
 
+router.get('/filters', async (req, res) => {
+	const filters = await roomService.getFilters();
+	res.status(200).json(filters);
+})
+
 router.get('/', async (req, res) => {
 	const rooms = await roomService.publicRooms(req.query);
 	res.status(200).json(rooms);
 });
 
-router.get('/:id', passport.authenticate('jwt'), async (req, res, next) => {
-	const { user } = req;
-	const room = await roomService.findRoom(Number.parseInt(req.params.id), user.id);
+router.get('/:id', async (req, res, next) => {
+	const room = await roomService.findRoom(Number.parseInt(req.params.id));
 
 	if (room) {
 		res.status(200).json(room);
@@ -33,7 +37,6 @@ router.get('/:id', passport.authenticate('jwt'), async (req, res, next) => {
 router.put('/:id', passport.authenticate('jwt'), async (req, res, next) => {
 	let response;
 	const { user } = req;
-	console.log(user)
 	if (user.id) {
 		response = await roomService.updateRoom(req.params.id, req.body, user)
 	} else {
@@ -47,6 +50,7 @@ router.get('/:id/bookings', async (req, res) => {
 	const bookings = await roomService.roomBookings(req.params.id);
 	res.status(200).json(bookings);
 });
+
 
 router.get('/', async (req, res) => {
 	const rooms = await roomService.publicRooms(req.query);
