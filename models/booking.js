@@ -28,9 +28,11 @@ module.exports = (sequelize, DataTypes) => {
     endDate: DataTypes.DATE,
     price: DataTypes.INTEGER
   }, {});
+
   Booking.associate = function(models) {
     Booking.belongsTo(models.user);
     Booking.belongsTo(models.room);
   };
+
   return Booking;
 };

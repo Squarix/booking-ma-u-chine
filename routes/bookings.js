@@ -13,9 +13,12 @@ router.post('/', passport.authenticate('jwt'), async (req, res) => {
 	if (user.id) {
 		try {
 			const result = await bookingService.create(user, req.body);
+			const { booking } = result;
+
+			res.io.to(booking.roomId + '').emit('newBooking', booking);
 			res.status(result.status).json(result);
 		} catch (e) {
-			res.status(400).json({ message: 'This apartments has been already booked :( '})
+			res.status(400).json({ message: 'Apartments has been already booked :( '})
 		}
 	} else {
 		res.status(401).json({message: 'Not authorized'})
